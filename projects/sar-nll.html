@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maritime SAR Ship-Intrusion Alert — Park, Minseok</title>
+<meta name="description" content="A radar-based watch for vessels approaching the Northern Limit Line: synthetic SAR approach sequences built from HRSID, oriented-box detection, and a five-level intrusion alert.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=17">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#projects" class="back-link">← Back to projects</a>
+
+    <span class="detail-kicker">Project</span>
+    <h1 class="detail-title">Maritime SAR Ship-Intrusion Alert near the NLL</h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Year</span><span class="val">2026</span></span>
+      <span><span class="label">Context</span><span class="val">Defense AI course project</span></span>
+      <span><span class="label">Stack</span><span class="val">SAR imagery · YOLOv8n-OBB · synthetic data pipeline</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>Why radar</h2>
+      <p>This project comes out of night coastal-guard duty at Yeonpyeong Island. The watch there
+      depends on optical sensors — Hawkeye and TOD — and those sensors fail exactly when the watch
+      matters most. Sea fog, foul weather, and darkness all blind them, and a vessel approaching the
+      Northern Limit Line under those conditions is the case the equipment handles worst.</p>
+      <p>Synthetic aperture radar does not care about fog or daylight. The question this project asks is
+      whether a SAR-based watch can not only see the vessels but decide, on its own, which of them
+      warrant an alert.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Building the data that does not exist</h2>
+      <p>No public dataset contains SAR sequences of vessels crossing a maritime boundary, so the
+      approach tracks had to be synthesized. The pipeline starts from HRSID and works in three steps:</p>
+      <ul>
+        <li><strong>Cut out</strong> — ship instances are extracted along their COCO segmentation
+        polygons, so each vessel comes away with its true SAR signature rather than a rectangular crop.</li>
+        <li><strong>Inpaint</strong> — the sea left behind is filled in, removing the vessel from its
+        original position without leaving a visible hole.</li>
+        <li><strong>Re-composite</strong> — the extracted vessels are placed back along linear approach
+        paths toward a drawn NLL, producing a sequence in which each ship advances frame by frame.</li>
+      </ul>
+      <figure class="detail-figure">
+        <img src="/assets/sar-sequence.jpg" alt="Six frames of a synthetic SAR sequence showing three vessels near a dashed Northern Limit Line, each marked with an oriented bounding box and a pixel range readout, with one track highlighted in amber">
+        <figcaption>One synthesized approach sequence (F1–F6). Each vessel carries an oriented box and
+        its pixel range to the dashed NLL; the amber track is the one raising the alert.</figcaption>
+      </figure>
+    </section>
+
+    <section class="detail-section">
+      <h2>Detection and alerting</h2>
+      <p>Detection uses YOLOv8n-OBB, which returns an oriented bounding box rather than an
+      axis-aligned one. That orientation is what makes the alert possible: a rectangle tells you a ship
+      is present, but an oriented box tells you which way its bow is pointing.</p>
+      <p>Three quantities are derived per vessel per frame — bow heading, range to the line, and closing
+      speed relative to it — and combined into a five-level intrusion alert, so that a vessel running
+      parallel to the boundary is not treated the same as one bearing down on it.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Summary</h2>
+      <ul>
+        <li><strong>Motivation</strong> — optical watch (Hawkeye, TOD) blinded by fog, weather, and darkness</li>
+        <li><strong>Data</strong> — HRSID SAR imagery; synthetic approach sequences via polygon cut-out and inpainting</li>
+        <li><strong>Detection</strong> — YOLOv8n-OBB oriented bounding boxes</li>
+        <li><strong>Alerting</strong> — bow heading, range, and closing speed vs. NLL, mapped to a five-level alert</li>
+      </ul>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

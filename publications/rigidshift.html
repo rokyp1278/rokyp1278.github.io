@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rigid-Covert GNSS Spoofing of UAV Swarms — Park, Minseok</title>
+<meta name="description" content="arXiv:2608.06885 — a structural blind spot in relative-geometry UAV swarm defenses, its detection limit, and absolute-anchor defenses.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=17">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#publications" class="back-link">← Back to publications</a>
+
+    <span class="detail-kicker">Preprint · to be submitted</span>
+    <h1 class="detail-title">Rigid-Covert GNSS Spoofing of UAV Swarms: A Structural Blind Spot, Its Detection Limit, and Absolute-Anchor Defenses</h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Authors</span><span class="val">M.S. Park, J.S. Yoo (Corresponding Author)</span></span>
+      <span><span class="label">Preprint</span><span class="val"><a href="https://arxiv.org/abs/2608.06885" target="_blank" rel="noopener">arXiv:2608.06885</a>, 2026</span></span>
+      <span><span class="label">Submitted</span><span class="val">7 August 2026</span></span>
+      <span><span class="label">Categories</span><span class="val">cs.CR (primary) · cs.RO</span></span>
+      <span><span class="label">Artifact</span><span class="val"><a href="https://github.com/rokyp1278/RigidShift" target="_blank" rel="noopener">github.com/rokyp1278/RigidShift</a></span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>Abstract</h2>
+      <div class="abstract">
+        <p>Cooperative UAV-swarm defenses commonly cross-check GNSS positions against measured
+        inter-drone geometry. We show that this relative-geometry channel has a structural blind spot: a
+        common, slowly varying translation (a rigid-covert shift, RigidShift) preserves all pairwise
+        distances and is therefore unobservable to any relative-only detector (a gauge-freedom argument).
+        We validate this blindness on distance-verification and semidefinite-feasibility baselines, while
+        explicitly distinguishing it from onboard inertial/GNSS monitors that can raise a bare alarm but
+        cannot recover the swarm's true position.</p>
+        <p>To quantify when an external reference restores observability, we derive the drift-dependent
+        detection floor 2γ/(1 − t<sub>s</sub>/T) for a calibrated anchor-residual detector and
+        empirically identify an additional detector-specific noise floor (measured slope 2.66 vs.
+        predicted 2.67). We then present a centralized anchor-rooted recovery pipeline that reconstructs
+        swarm geometry from inter-drone ranges, aligns it to a trusted-anchor subset with
+        Byzantine-robust fitting, and recovers the absolute positions of non-anchored drones. A segmented
+        estimator jointly estimates anchor drift, attack rate, and onset when no clean-epoch label is
+        available.</p>
+        <p>Across statistical simulations, ArduPilot software-in-the-loop experiments, and Gazebo
+        experiments with rendered vision anchors, the method recovers the positions of non-anchored
+        drones to a median error of 0.39 m (20 seeds) under approximately 10.1 m of GNSS drift, and to
+        7.1 cm (5 seeds) in the rendered-vision multi-SITL setting. We also characterize the explicit
+        limits imposed by non-collinear anchor geometry, anchor coverage, τ → 0 drift-attack aliasing,
+        and majority anchor compromise. All evaluations are simulation-based and use no RF spoofing
+        hardware or physical swarm.</p>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h2>Links</h2>
+      <div class="detail-links">
+        <a href="https://arxiv.org/abs/2608.06885" target="_blank" rel="noopener">arXiv abstract page</a>
+        <a href="https://arxiv.org/pdf/2608.06885" target="_blank" rel="noopener">PDF</a>
+        <a href="https://github.com/rokyp1278/RigidShift" target="_blank" rel="noopener">Artifact repository</a>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

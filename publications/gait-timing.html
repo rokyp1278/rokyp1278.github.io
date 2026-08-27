@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gait Phase and Event Timing from Hip-Angle Sensing — Park, Minseok</title>
+<meta name="description" content="Manuscript in preparation: recovering continuous gait phase and four foot-contact events from bilateral hip encoders alone, validated on a commercial hip exoskeleton.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=17">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#publications" class="back-link">← Back to publications</a>
+
+    <span class="detail-kicker">In preparation · to be submitted</span>
+    <h1 class="detail-title">Estimating Gait Phase and Gait-Event Timing from Hip-Angle Sensing Alone: Feasibility and Limits on a Commercial Hip Exoskeleton</h1>
+    <p class="pub-note">Working title. The final title will be posted once the manuscript is submitted.</p>
+
+    <div class="detail-meta">
+      <span><span class="label">Authors</span><span class="val">M.S. Park, H. Kim (Corresponding Author)</span></span>
+      <span><span class="label">Status</span><span class="val">Manuscript in preparation · to be submitted, 2026</span></span>
+      <span><span class="label">Keywords</span><span class="val">Prosthetics and exoskeletons · wearable robotics · gait event detection · gait phase estimation · gait analysis</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>Abstract</h2>
+      <div class="abstract">
+        <p>Hip-exoskeleton assistance must be delivered at the right point in the gait cycle, which
+        requires both a continuous gait phase and the timing of the main foot-contact events — heel
+        strike (HS), foot flat (FF), heel off (HO), and toe off (TO). Existing four-event estimators,
+        however, rely on plantar-pressure sensors, distal IMUs, or multi-joint kinematics, all of which
+        add sensing that a hip exoskeleton does not have. Whether bilateral hip encoders alone can
+        recover both the phase and all four events — and where this proximal-only sensing reaches its
+        limit — has not been established.</p>
+        <p>Using only the sagittal angles of the two hip encoders and the angular velocities derived
+        from them, we train separate temporal convolutional networks for phase and for event estimation,
+        evaluate them subject-independently on two public datasets, transfer the trained models to a
+        commercial hip exoskeleton scored against synchronized video, and analyze the hip-motion cue
+        behind each event.</p>
+        <p>Hip-only sensing reached a phase RMSE of 2.84 %, with median absolute event-timing errors of
+        5, 15, 40, and 10 ms for HS, FF, HO, and TO; on the device, the selected configuration reached
+        F1 scores of 0.99, 0.95, 0.94, and 0.96 at a ±200 ms tolerance. These results show that the
+        bilateral hip encoders already present on such devices can provide both continuous gait phase
+        and the four principal foot-contact events without any additional distal sensing, supporting
+        sensor-minimal gait-state estimation for hip-exoskeleton control.</p>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

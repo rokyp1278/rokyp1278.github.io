@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiDAR and Radar Security Research Directions — Park, Minseok</title>
+<meta name="description" content="JKIISC 2026 — reorganizing LiDAR and radar attacks and defenses by their intervention point across a three-layer perception attack surface.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=17">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#publications" class="back-link">← Back to publications</a>
+
+    <span class="detail-kicker">Accepted</span>
+    <h1 class="detail-title">Research Directions for LiDAR and Radar Security Based on Intervention Points in the Autonomous Driving Perception Pipeline
+      <span class="detail-title-kr">자율주행 인지 파이프라인의 개입 위치에 따른 LiDAR/Radar 보안 기술과 향후 연구 방향</span>
+    </h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Authors</span><span class="val">Minseok Park (Undergraduate student), Joon Soo Yoo (Professor, Corresponding Author) — Jeonbuk National University</span></span>
+      <span><span class="label">Venue</span><span class="val">Journal of the Korea Institute of Information Security &amp; Cryptology (KCI), Vol. 36, No. 4, 2026</span></span>
+      <span><span class="label">Timeline</span><span class="val">Received 9 Apr 2026 · Modified 18 May 2026 · Accepted 10 Jun 2026</span></span>
+      <span><span class="label">Keywords</span><span class="val">Autonomous mobility · LiDAR · Radar · Sensor fusion · Intervention points</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>Abstract</h2>
+      <div class="abstract">
+        <p>Autonomous mobility is evolving toward perceiving the surrounding environment and estimating
+        the position and velocity of objects based on LiDAR and Radar. Concurrently, the significance of
+        security threats targeting active sensors and perception processing architectures is growing.
+        Security for LiDAR and Radar-based perception systems encompasses issues such as physical signal
+        manipulation, object perception disruption, and the induction of errors in sensor fusion and
+        tracking processes. This paper reorganizes research on attacks and defenses for LiDAR and
+        Radar-based autonomous perception systems, focusing on the intervention points within the
+        perception process, and compares and analyzes related studies under a consistent framework.
+        Finally, based on the analysis results, this paper proposes future research directions for
+        LiDAR/Radar perception security.</p>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h2>Why reorganize the field</h2>
+      <p>Work on LiDAR and radar security is usually catalogued by attack name — spoofing, jamming,
+      relay, adversarial examples. That grouping places methods side by side that have little in common
+      once you ask which part of the system they actually touch, and it makes defenses hard to compare,
+      because two papers that both claim to stop spoofing may be operating at completely different
+      stages of the pipeline.</p>
+      <p>This review reorganizes the same body of work around a different axis: <em>where in the
+      perception process the attack or defense intervenes</em>. Under that organization, the assumption
+      a technique breaks, and therefore the class of defense that can possibly catch it, is what
+      determines where it belongs.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>The three-layer attack surface</h2>
+      <p>The paper models the perception pipeline as a three-layer attack surface and traces how the
+      impact of a threat propagates across those layers.</p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr><th>Layer</th><th>What it covers</th><th>What an attacker changes there</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Input formation</td>
+              <td>The physical return and its conversion into a point cloud or range-Doppler map</td>
+              <td>Physical signal manipulation: point distortion, removal, injection, spoofed range and velocity</td>
+            </tr>
+            <tr>
+              <td>Object perception</td>
+              <td>Detection and classification over that representation</td>
+              <td>Object perception disruption: false positives, false negatives, misclassification</td>
+            </tr>
+            <tr>
+              <td>State integration</td>
+              <td>Fusion across sensors and tracking across time</td>
+              <td>Induced errors in fusion and tracking: pose and velocity error, latency-induced tracking error</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h2>One comparison framework for every study</h2>
+      <p>Rather than describing each paper in its own terms, every surveyed work is entered into the
+      same set of columns, which is what makes cross-study comparison possible:</p>
+      <ul>
+        <li><strong>Intervention point</strong> — the exact place in the pipeline the technique acts on</li>
+        <li><strong>Mechanism</strong> — how it acts there</li>
+        <li><strong>Target</strong> — what it tries to affect or protect</li>
+        <li><strong>Perception error</strong> — the resulting failure, stated as false positive, false negative, misclassification, or range and velocity offset</li>
+        <li><strong>Experiment type</strong> — physical, simulation, or dataset, so that results validated on hardware are not silently equated with simulation-only claims</li>
+        <li><strong>Vehicle behavior impact</strong> — what the error means for the vehicle</li>
+        <li><strong>Sensor type</strong> — LiDAR, Radar, or fusion</li>
+      </ul>
+      <p>Eight summary tables apply this framework across the layers: attacks at input formation
+      (LiDAR and Radar treated separately) and at object perception, then defenses at input formation,
+      at object perception, at multi-sensor state integration, and at LiDAR-Radar fusion.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Coverage</h2>
+      <p>Twenty-nine studies published between 2017 and 2026 are surveyed, drawn from venues including
+      NDSS, USENIX Security, ACM CCS, CVPR, MobiSys, SenSys, and VehicleSec. The distribution is heavily
+      weighted toward recent work, which is itself a finding about how fast this area is moving.</p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead>
+            <tr><th>2017</th><th>2018</th><th>2019</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>1</td><td>5</td><td>5</td><td>9</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="detail-note">Supported by the Korea Institute for Advancement of Technology (KIAT) grant
+      funded by the Ministry of Education (P0031061).</p>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

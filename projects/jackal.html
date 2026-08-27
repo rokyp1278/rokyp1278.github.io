@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomous Landmine-Detection Robot — Park, Minseok</title>
+<meta name="description" content="Autonomy stack for a mine-survey mission on a Clearpath Jackal UGV: graph SLAM, frontier exploration, a hand-written A* and pure pursuit navigation stack, and AprilTag hotspot clustering.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=17">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#projects" class="back-link">← Back to projects</a>
+
+    <span class="detail-kicker">Project</span>
+    <h1 class="detail-title">Autonomous Landmine-Detection Robot</h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Year</span><span class="val">2026</span></span>
+      <span><span class="label">Context</span><span class="val">Capstone Design Project, Defense Creative Engineering Design</span></span>
+      <span><span class="label">Role</span><span class="val">Team leader (team of 4)</span></span>
+      <span><span class="label">Stack</span><span class="val">ROS 2 Jazzy · Clearpath Jackal UGV · NVIDIA Jetson</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>The mission</h2>
+      <p>The robot has to survey terrain it has never seen, find the mines hidden in it, and then go
+      back to the place where the mines are densest so that a demolition team can be sent to one spot
+      instead of many. AprilTags stand in for the mines. Nothing about the map is known in advance, so
+      exploration, mapping, detection, and target selection all have to happen in one continuous run.</p>
+      <p>Computation is split across two machines. A mini-PC carries SLAM, planning, and navigation; an
+      NVIDIA Jetson carries perception. Keeping detection off the planning machine means the vision model
+      never competes with the control loop for CPU.</p>
+      <figure class="detail-figure">
+        <img src="/assets/jackal-robot.jpg" alt="Clearpath Jackal UGV with a Livox LiDAR, dual depth cameras, and a Jetson mounted on top">
+        <figcaption>The Jackal platform with its LiDAR, dual depth cameras, and Jetson.</figcaption>
+      </figure>
+    </section>
+
+    <section class="detail-section">
+      <h2>Navigation written from scratch</h2>
+      <p>The advisor set one constraint that shaped the whole project: no Nav2. The navigation stack had
+      to be written rather than configured, which meant building each layer and understanding why it
+      behaves the way it does.</p>
+      <ul>
+        <li><strong>Mapping</strong> — 2D graph SLAM through <code>slam_toolbox</code>, building the
+        occupancy grid the planner consumes.</li>
+        <li><strong>Exploration</strong> — breadth-first frontier detection over that grid, selecting
+        the next boundary between known and unknown space to push into.</li>
+        <li><strong>Planning</strong> — A* with an octile heuristic, run over a self-implemented
+        configuration-space inflation cost map so the path keeps clearance from obstacles rather than
+        grazing them.</li>
+        <li><strong>Control</strong> — pure pursuit tracking to follow the planned path.</li>
+      </ul>
+    </section>
+
+    <section class="detail-section">
+      <h2>From detections to demolition targets</h2>
+      <p>A single frame that says "there is a tag here" is not a target. Turning detections into
+      something a demolition team can act on takes three more steps.</p>
+      <ul>
+        <li><strong>Detection</strong> — YOLOv8n trained on a self-generated AprilTag dataset, running
+        on the Jetson, combined with AprilTag recognition for identity.</li>
+        <li><strong>Localization</strong> — each tag is placed into the map frame via
+        <code>solvePnP</code> and <code>tf2</code>, with per-ID median accumulation so that repeated
+        sightings of the same tag converge instead of scattering.</li>
+        <li><strong>Clustering</strong> — DBSCAN with a 2.0 m radius groups the accumulated positions
+        into hotspots, and the robot drives to each hotspot centroid in order of tag density.</li>
+      </ul>
+    </section>
+
+    <section class="detail-section">
+      <h2>Platform</h2>
+      <ul>
+        <li><strong>Base</strong> — Clearpath Jackal UGV, mini-PC plus NVIDIA Jetson</li>
+        <li><strong>Sensors</strong> — Livox MID360 LiDAR, dual RealSense depth cameras</li>
+        <li><strong>Middleware</strong> — ROS 2 Jazzy</li>
+      </ul>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>
