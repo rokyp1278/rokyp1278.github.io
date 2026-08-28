@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swarm Robustness — Park, Minseok</title>
+<meta name="description" content="Research direction: keeping a cooperative drone swarm functional when its own sensors, links, or members stop being trustworthy.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=19">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#research" class="back-link">← Back to research</a>
+
+    <span class="detail-kicker">Research</span>
+    <h1 class="detail-title">Swarm Robustness (HW / SW)</h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Status</span><span class="val">Ongoing direction, grown out of the spoofing work</span></span>
+      <span><span class="label">Scope</span><span class="val">Sensing hardware and the software that fuses, agrees, and decides</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>The question</h2>
+      <p>A swarm defense built on trusted references only works while those references are trustworthy.
+      That assumption is comfortable on paper and fragile in the field: sensors degrade, links drop,
+      hardware fails, and a member can be compromised outright. The question this direction asks is what
+      the swarm should do once part of it can no longer be believed — not whether it can detect the
+      problem, but whether it can keep flying correctly through it.</p>
+      <p>The interest is deliberately split across two layers. Hardware decides what the swarm can
+      measure at all and how it fails when a sensor drifts rather than dies. Software decides how those
+      measurements are fused, how members reach agreement, and how much a single bad input can move the
+      collective answer.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>What the spoofing work already established</h2>
+      <p>This is not a fresh start. The anchor-based defense turned out to have failure modes worth
+      studying on their own terms, and characterizing them is what made the direction concrete:</p>
+      <ul>
+        <li><strong>Correlated failure is the hard case.</strong> Independent anchor faults are
+        manageable; anchors failing in a common mode collapse detection, because the very correlation
+        that the consensus relies on is what the failure destroys.</li>
+        <li><strong>Trust dilutes with scale.</strong> A fixed number of references spread across a
+        larger swarm leaves the far members with progressively weaker evidence, so recovery error grows
+        with swarm size rather than staying flat.</li>
+        <li><strong>Byzantine members need outvoting, not averaging.</strong> Robust fitting holds up to
+        a bounded fraction of lying anchors, and degrades sharply past it — the boundary is where the
+        interesting engineering sits.</li>
+        <li><strong>Some faults are genuinely ambiguous.</strong> Slow drift and a slow attack can
+        produce the same observable, and separating them needs either a clean reference epoch or a
+        second, independent sensing modality.</li>
+      </ul>
+    </section>
+
+    <section class="detail-section">
+      <h2>Where it goes</h2>
+      <p>The direction I want to push is toward swarms that carry heterogeneous, independently-failing
+      sensing rather than one shared modality, so that a common-mode failure has somewhere to be caught.
+      Alongside that: agreement protocols whose degradation is graceful and predictable as members drop
+      out or turn hostile, and an honest account of how much reference infrastructure a swarm of a given
+      size actually needs.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Related</h2>
+      <div class="detail-links">
+        <a href="/research/uav-swarm-spoofing.html">Research: UAV Swarm Spoofing Defense</a>
+        <a href="/research/drone-ai-agents.html">Research: Drone AI Agents</a>
+        <a href="/publications/rigidshift.html">Publication: Rigid-Covert GNSS Spoofing of UAV Swarms</a>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

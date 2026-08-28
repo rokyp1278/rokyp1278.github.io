@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drone AI Agents — Park, Minseok</title>
+<meta name="description" content="Research direction: onboard agents that plan and adapt a mission while reasoning about how far to trust their own perception.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=19">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#research" class="back-link">← Back to research</a>
+
+    <span class="detail-kicker">Research</span>
+    <h1 class="detail-title">Drone AI Agents</h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Status</span><span class="val">Direction I am moving toward — no results yet</span></span>
+      <span><span class="label">Question</span><span class="val">Can an onboard agent decide how far to trust its own perception?</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>Why this follows</h2>
+      <p>Everything I have worked on so far ends at the same place: a system is fed sensor data it
+      cannot fully verify, and something outside the vehicle has to decide what to do about it. The
+      spoofing defense detects and recovers, but a human designed the detector, chose its threshold, and
+      set what happens when it fires. The vehicle itself is not reasoning about any of it.</p>
+      <p>That is the gap I want to work in. An agent flying a real mission meets conditions nobody
+      enumerated in advance — a sensor that degrades instead of failing, a reference that is available
+      but wrong, a situation where continuing and aborting are both defensible. Handling that well is a
+      decision-making problem, not only a detection problem.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>What I want to build toward</h2>
+      <ul>
+        <li><strong>Perception the agent can question.</strong> An estimate that arrives with a defensible
+        statement of how much it should be believed, rather than a number presented as fact.</li>
+        <li><strong>Graceful degradation as a policy.</strong> Choosing to slow down, hold, return, or
+        hand back control — and doing it because the evidence supports it, not because a threshold
+        tripped.</li>
+        <li><strong>Decisions that can be audited.</strong> If an agent aborts a mission, the reason
+        should be reconstructable afterwards. For anything flying in a defense context this matters as
+        much as the decision itself.</li>
+        <li><strong>Coordination without a single point of trust.</strong> Extending this from one
+        vehicle to a swarm, where agents have to agree while some of them may be wrong.</li>
+      </ul>
+    </section>
+
+    <section class="detail-section">
+      <h2>Honest status</h2>
+      <p>This is a direction, not a result. I have no publications here yet. It is on this page because
+      it is where the work I have done points, and because it is what I want to spend graduate study on:
+      the same trust question I have been chasing in sensing, moved up into the decision layer.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Related</h2>
+      <div class="detail-links">
+        <a href="/research/swarm-robustness.html">Research: Swarm Robustness</a>
+        <a href="/research/uav-swarm-spoofing.html">Research: UAV Swarm Spoofing Defense</a>
+        <a href="/#projects">Projects: autonomy stacks I have built</a>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

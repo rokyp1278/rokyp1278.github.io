@@ -6,7 +6,7 @@
 <title>Park, Minseok</title>
 <meta name="description" content="Park, Minseok — Physical AI, Defense Technology, Space Security &amp; Cyber Security researcher">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="stylesheet" href="css/style.css?v=17">
+<link rel="stylesheet" href="css/style.css?v=19">
 </head>
 <body>
 
@@ -34,12 +34,12 @@
         <p class="bio">
           Undergraduate student in Electronic Engineering at Jeonbuk National University, currently
           completing a convergence major in Advanced Defense Technology and Industry. Interested in physical AI and
-          defense technology, with current research on exoskeleton systems, SAR satellite security,
-          and UAV swarm security.
+          defense technology, with current research on the security and robustness of cooperative drone
+          swarms, and on onboard AI agents for UAV autonomy.
         </p>
         <div class="badges">
           <span class="badge">Physical AI</span>
-          <span class="badge">Space Security</span>
+          <span class="badge">Swarm Autonomy</span>
           <span class="badge">Cyber Security</span>
           <span class="badge">Defense Technology</span>
         </div>
@@ -101,28 +101,23 @@
 
   <section id="research" class="section">
     <h2 class="section-title">Research</h2>
-    <div class="cards">
-      <div class="card">
-        <img class="card-img" src="assets/exoskeleton.jpg" alt="Soldier wearing a lower-body exoskeleton" style="object-position: center 68%;">
-        <h3>Exoskeleton</h3>
-        <p>Research on hip exoskeletons from a physical AI perspective, focusing on how far continuous
-        gait phase and discrete event timing can be estimated from hip-angle sensing alone, and on
-        validating that estimate on a commercial device.</p>
-      </div>
-      <div class="card">
-        <img class="card-img" src="assets/sar-satellite.jpg" alt="Seasat, the first SAR satellite">
-        <h3>SAR Satellite Security</h3>
-        <p>Research on synthetic aperture radar (SAR) satellite systems from a space security
-        perspective, focusing on sensing pipeline and signal-level security.</p>
-      </div>
-      <div class="card">
-        <img class="card-img" src="assets/drone-swarm.jpg" alt="Four quadcopters flying in formation during a swarm exercise">
-        <h3>UAV Swarm Spoofing Defense</h3>
-        <p>Research on defending cooperative UAV swarms against spoofing that shifts the whole
-        swarm while preserving inter-drone geometry, focusing on why relative-measurement defenses
-        are blind to it and how absolute references restore trust.</p>
-      </div>
-    </div>
+    <ul class="res-list">
+      <li>
+        <a class="res-title" href="/research/uav-swarm-spoofing.html">UAV Swarm Spoofing Defense</a>
+        <p>Spoofing that shifts a whole formation while every inter-drone distance holds, and recovering
+        absolute position from a few references that do not come from GNSS.</p>
+      </li>
+      <li>
+        <a class="res-title" href="/research/swarm-robustness.html">Swarm Robustness (HW / SW)</a>
+        <p>Keeping a swarm flying when parts of it stop being trustworthy &mdash; sensors that drift
+        rather than fail, links that drop, and members that turn hostile.</p>
+      </li>
+      <li>
+        <a class="res-title" href="/research/drone-ai-agents.html">Drone AI Agents</a>
+        <p>Onboard agents that judge how far to trust their own perception, and degrade gracefully
+        instead of acting confidently on bad input.</p>
+      </li>
+    </ul>
   </section>
 
   <section id="projects" class="section">

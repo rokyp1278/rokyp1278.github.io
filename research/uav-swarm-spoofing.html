@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UAV Swarm Spoofing Defense — Park, Minseok</title>
+<meta name="description" content="Research on GNSS spoofing that shifts a whole UAV formation while preserving inter-drone geometry, and on recovering absolute position from a few trusted anchors.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=19">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#research" class="back-link">← Back to research</a>
+
+    <span class="detail-kicker">Research</span>
+    <h1 class="detail-title">UAV Swarm Spoofing Defense</h1>
+
+    <div class="detail-meta">
+      <span><span class="label">Status</span><span class="val">Active · preprint on arXiv</span></span>
+      <span><span class="label">Setting</span><span class="val">Simulation — ArduPilot SITL and Gazebo</span></span>
+      <span><span class="label">Output</span><span class="val"><a href="/publications/rigidshift.html">Rigid-Covert GNSS Spoofing of UAV Swarms</a></span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>The blind spot</h2>
+      <p>Cooperative swarm defenses usually work by cross-checking what GNSS reports against the
+      geometry the drones can measure among themselves. If a reported position drifts away from where
+      the inter-drone ranges say a drone should be, something is wrong.</p>
+      <p>That check has a structural hole. If an attacker moves the entire formation slowly and
+      together, every pairwise distance stays exactly as it was. The discrepancy the defense looks for
+      is zero — not small, not below threshold, but zero by construction. No amount of tuning closes it,
+      because it is a gauge freedom rather than a detection failure.</p>
+      <figure class="detail-figure">
+        <img src="/assets/fig-threat.png" alt="A GNSS spoofer applies a slow common offset; the formation drifts off its intended path while every inter-drone distance stays unchanged">
+        <figcaption>The attack: a slow common offset moves the swarm as one rigid body. Every distance
+        d<sub>ij</sub> is preserved, so a relative-geometry detector sees nothing.</figcaption>
+      </figure>
+    </section>
+
+    <section class="detail-section">
+      <h2>Restoring the frame</h2>
+      <p>What relative measurements can never supply is an absolute frame. Inter-drone ranges determine
+      the swarm's <em>shape</em> perfectly well; they say nothing about where that shape sits in the
+      world. So the recovery works in two halves: rebuild the shape from ranges, then root that shape on
+      a small number of references that do not come from GNSS.</p>
+      <p>The alignment step has to survive a lying reference, so it is fitted robustly rather than by
+      least squares — a compromised anchor is outvoted instead of averaged in. Once the frame is
+      recovered, absolute positions follow for every drone, including the ones carrying no anchor of
+      their own.</p>
+      <figure class="detail-figure">
+        <img src="/assets/fig-defense.png" alt="Anchored drones and ground landmarks let an MDS reconstruction be aligned by RANSAC, so absolute positions are estimated for the whole formation">
+        <figcaption>Ranges give the shape, anchors give the frame. The alignment is fitted robustly, so
+        a lying anchor is outvoted rather than averaged in.</figcaption>
+      </figure>
+    </section>
+
+    <section class="detail-section">
+      <h2>Where it stops working</h2>
+      <p>The interesting part of this problem is not that a defense exists, but that its limits can be
+      stated precisely. There is a drift-dependent floor below which a slow enough attack is
+      indistinguishable from ordinary anchor drift. Anchor placement matters: collinear references leave
+      the frame underdetermined. And if a majority of anchors are compromised, the trust root itself is
+      gone and nothing downstream can repair it.</p>
+      <p>Every result here is simulation-based. No RF spoofing hardware and no physical swarm were
+      involved.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Related</h2>
+      <div class="detail-links">
+        <a href="/publications/rigidshift.html">Publication: Rigid-Covert GNSS Spoofing of UAV Swarms</a>
+        <a href="/research/swarm-robustness.html">Research: Swarm Robustness</a>
+      </div>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

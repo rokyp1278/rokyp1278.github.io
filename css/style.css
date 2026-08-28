@@ -190,13 +190,13 @@ h1 {
   display: block;
   width: calc(100% + 2.4rem);
   margin: -1.1rem -1.2rem 1rem;
-  height: 240px;
+  height: 190px;
   object-fit: cover;
   object-position: center center;
 }
 
 .card-img.contain {
-  height: 200px;
+  height: 190px;
   object-fit: contain;
   background: var(--bg);
 }
@@ -240,7 +240,16 @@ h1 {
 }
 
 .card h3 { margin: 0 0 0.5rem; color: var(--accent); font-size: 1.05rem; }
-.card p { margin: 0; color: var(--fg); font-size: 0.92rem; }
+.card h3 a { display: block; }
+.card .proj-link { margin-top: 0.35rem; }
+.card p {
+  margin: 0;
+  color: var(--fg);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  text-wrap: pretty;
+  hyphens: none;
+}
 
 .proj-meta {
   display: block;
@@ -428,3 +437,26 @@ h1 {
 .detail-note { color: var(--muted); font-size: 0.82rem; margin-top: 0.9rem; }
 
 .pub-list .proj-link { align-self: flex-start; margin-top: 0.6rem; }
+
+.res-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; }
+
+.res-list li {
+  padding: 1.15rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.res-list li:last-child { border-bottom: none; }
+
+.res-title {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 0.35rem;
+}
+
+.res-title::after { content: " →"; }
+.res-title:hover { text-decoration: underline; }
+
+.res-list p { margin: 0; font-size: 0.92rem; max-width: 74ch; color: var(--fg); }
