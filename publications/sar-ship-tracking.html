@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ship Tracking and Maritime Boundary Intrusion Early-Warning — Park, Minseok</title>
+<meta name="description" content="Ship tracking and maritime boundary intrusion early warning from SAR satellite imagery: synthetic SAR sequences, oriented-box detection, and a five-level alert evaluated on held-out HRSID scenes.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<link rel="stylesheet" href="/css/style.css?v=19">
+</head>
+<body>
+
+<header class="term-bar">
+  <a href="/" class="home-btn" aria-label="Home"><img src="/assets/logo.png" alt="Home" class="home-logo"></a>
+  <nav class="term-nav">
+    <a href="/#about">About</a>
+    <a href="/#career">Career</a>
+    <a href="/#research">Research</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#publications">Publications</a>
+  </nav>
+  <button class="term-nav-toggle" id="navToggle" aria-label="toggle menu">☰</button>
+</header>
+
+<main>
+  <article class="detail">
+    <a href="/#publications" class="back-link">← Back to publications</a>
+
+    <span class="detail-kicker">Publication</span>
+    <h1 class="detail-title">Ship Tracking and Maritime Boundary Intrusion Early-Warning System Using SAR Satellite Imagery</h1>
+    <p class="pub-title-kr">SAR 위성영상 기반 선박 추적 및 해상 경계 침범 조기경보 시스템</p>
+
+    <div class="detail-meta">
+      <span><span class="label">Status</span><span class="val">Submitted</span></span>
+      <span><span class="label">Venue</span><span class="val">CISC-W 2026, Korea Institute of Information Security &amp; Cryptology</span></span>
+      <span><span class="label">Authors</span><span class="val">M.S. Park, I. Ryu, M. Buhedma, J.S. Yoo (Corresponding Author)</span></span>
+      <span><span class="label">Stack</span><span class="val">SAR imagery · YOLOv8n-OBB · synthetic sequence pipeline</span></span>
+    </div>
+
+    <section class="detail-section">
+      <h2>Why radar, and why sequences</h2>
+      <p>This work comes out of night coastal-guard duty at Yeonpyeong Island. The watch there depends
+      on optical sensors, and those sensors fail exactly when the watch matters most — sea fog, foul
+      weather, and darkness all blind them, and a vessel approaching the Northern Limit Line under
+      those conditions is the case the equipment handles worst. Synthetic aperture radar does not care
+      about fog or daylight.</p>
+      <p>What changed the question is persistence. SAR satellites have historically flown in low Earth
+      orbit, which limits how often the same water can be revisited, so SAR ship detection has largely
+      been posed as a single-frame problem: where are the vessels in this scene. Geostationary SAR
+      demonstrations have since shown that a fixed patch of sea can be observed continuously, which
+      moves the useful question from <em>where is the ship</em> to <em>where is it going, and will it
+      cross the line</em>.</p>
+      <p>That second question needs sequences, and public SAR ship datasets do not have them. HRSID
+      provides individual scenes with ship annotations, which is enough to train a detector and not
+      enough to evaluate tracking or alerting at all.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Building the data that does not exist</h2>
+      <p>No public dataset contains SAR sequences of vessels crossing a maritime boundary, so the
+      approach tracks had to be synthesized. The pipeline starts from HRSID and works in three steps:</p>
+      <ul>
+        <li><strong>Cut out</strong> — ship instances are extracted along their COCO segmentation
+        polygons, so each vessel comes away with its true SAR signature rather than a rectangular crop.</li>
+        <li><strong>Inpaint</strong> — the sea left behind is filled in, removing the vessel from its
+        original position without leaving a visible hole.</li>
+        <li><strong>Re-composite</strong> — the extracted vessels are placed back along linear approach
+        paths toward a drawn boundary, producing a sequence in which each ship advances frame by frame.</li>
+      </ul>
+      <p>The detector is trained on synthesized sequences, and the evaluation set is built from HRSID
+      scenes that share no source imagery with the training data — 525 held-out sequences in total.
+      Keeping the two sides disjoint is what makes the reported numbers mean something: a detector
+      evaluated on recompositions of its own training scenes would mostly be scoring its own memory.</p>
+      <figure class="detail-figure">
+        <img src="/assets/sar-sequence.jpg" alt="Six frames of a synthetic SAR sequence showing three vessels near a dashed maritime boundary, each marked with an oriented bounding box and a pixel range readout, with one track highlighted in amber">
+        <figcaption>One synthesized approach sequence (F1–F6). Each vessel carries an oriented box and
+        its pixel range to the dashed boundary; the amber track is the one raising the alert.</figcaption>
+      </figure>
+    </section>
+
+    <section class="detail-section">
+      <h2>Detection, tracking, and alerting</h2>
+      <p>Detection uses YOLOv8n-OBB, which returns an oriented bounding box rather than an
+      axis-aligned one. That orientation is what makes the rest possible: a rectangle tells you a ship
+      is present, but an oriented box tells you which way its bow is pointing.</p>
+      <p>Detections are then linked across frames into tracks, and each track is read for approach
+      angle and range to the boundary. From those, the system predicts whether and when the track
+      would cross, and maps the result to a five-level alert — so a vessel running parallel to the
+      boundary is not treated the same as one bearing down on it.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Results</h2>
+      <ul>
+        <li><strong>Detection rate</strong> — 100.0%</li>
+        <li><strong>Mean IoU</strong> — 0.787</li>
+        <li><strong>Alert recall</strong> — 84.2%</li>
+        <li><strong>False-alarm rate</strong> — 6.9%</li>
+      </ul>
+      <p>Recall and false-alarm rate are reported separately rather than folded into one score, because
+      in a coastal watch the two errors do not cost the same thing.</p>
+    </section>
+
+    <section class="detail-section">
+      <h2>Summary</h2>
+      <ul>
+        <li><strong>Motivation</strong> — optical watch blinded by fog, weather, and darkness; geostationary SAR makes persistent observation of one patch of sea plausible</li>
+        <li><strong>Gap</strong> — public SAR ship datasets are single-frame, so tracking and alerting cannot be evaluated</li>
+        <li><strong>Data</strong> — synthetic approach sequences from HRSID via polygon cut-out, inpainting, and re-compositing; 525 held-out evaluation sequences</li>
+        <li><strong>Method</strong> — YOLOv8n-OBB detection, cross-frame tracking, approach-angle and crossing prediction, five-level alert</li>
+        <li><strong>Result</strong> — 100.0% detection, 0.787 mean IoU, 84.2% alert recall, 6.9% false alarms</li>
+      </ul>
+    </section>
+  </article>
+</main>
+
+<footer class="term-footer">
+  <span id="clock"></span>
+  <span class="footer-sep">|</span>
+  <span>© <span id="year"></span> Park, Minseok</span>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>
