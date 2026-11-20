@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UAV Swarm Spoofing Defense — Park, Minseok</title>
-<meta name="description" content="Research on GNSS spoofing that shifts a whole UAV formation while preserving inter-drone geometry, and on recovering absolute position from a few trusted anchors.">
+<meta name="description" content="Research on GNSS spoofing that shifts a whole UAV formation while preserving inter-drone geometry: detecting it from transmitter parallax, and recovering absolute position from a few trusted anchors.">
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <link rel="stylesheet" href="/css/style.css?v=19">
 </head>
@@ -30,9 +30,9 @@
     <h1 class="detail-title">UAV Swarm Spoofing Defense</h1>
 
     <div class="detail-meta">
-      <span><span class="label">Status</span><span class="val">Active · preprint on arXiv</span></span>
-      <span><span class="label">Setting</span><span class="val">Simulation — ArduPilot SITL and Gazebo</span></span>
-      <span><span class="label">Output</span><span class="val"><a href="/publications/rigidshift.html">Rigid-Covert GNSS Spoofing of UAV Swarms</a></span></span>
+      <span><span class="label">Status</span><span class="val">Active · two preprints on arXiv</span></span>
+      <span><span class="label">Setting</span><span class="val">Simulation — ArduPilot SITL, Gazebo, and real GPS/Galileo orbits</span></span>
+      <span><span class="label">Output</span><span class="val"><a href="/publications/rigidshift.html">Rigid-Covert GNSS Spoofing of UAV Swarms</a> · <a href="/publications/swarm-parallax.html">Detecting Formation-Preserving GNSS Spoofing of UAV Swarms</a></span></span>
     </div>
 
     <section class="detail-section">
@@ -80,8 +80,47 @@
     </section>
 
     <section class="detail-section">
+      <h2>When the shift is only approximate</h2>
+      <p>An exact common shift is the limiting case, and no real attacker can produce one: it would take
+      transmitters at satellite distance. GNSS-WASP, the realizable version, puts one transmitter per
+      satellite a few kilometres away and keeps the formation only approximately. So the next question
+      was whether that approximation leaves a trace below the position level, in the measurements the
+      positions are computed from.</p>
+      <p>It does. A satellite is about 20,000 km away, so every drone in a 90 m swarm sees it under
+      practically the same angle. A transmitter 5 km away is seen under directions that differ by about
+      a degree across the same swarm. That parallax bends the signal's arrival times across the
+      formation into a bowl, about 20 cm deep at the edge, and because the attacker's delay for each
+      transmitter is added equally to every drone, no timing can flatten it.</p>
+      <figure class="detail-figure">
+        <img src="/assets/fig-parallax.png" alt="A 90 m swarm sees a GPS satellite about 20,000 km away under about 0.0003 degrees, but a spoofing transmitter a few kilometres away under about 1 degree">
+        <figcaption>Swarm parallax. The satellite's signals arrive practically parallel; a transmitter a
+        few kilometres away is seen under about 1&deg; across a 90 m swarm. Delaying the signal cannot
+        change this angle.</figcaption>
+      </figure>
+      <p>The detector is a likelihood ratio test that reads this bowl from the pseudoranges and Doppler
+      every drone already measures, with every receiver clock and attacker delay left unknown and no
+      extra antennas. Doppler adds evidence when the swarm turns in formation, because the drones then
+      move at different velocities. In simulation with real GPS and Galileo orbits, 16 drones catch
+      GNSS-WASP at 5 km in 13&ndash;60% of 10 s windows in straight flight and in every window during a
+      turn with a precise-Doppler receiver, where the countermeasure proposed with GNSS-WASP catches at
+      most 5% on the same swarm.</p>
+      <figure class="detail-figure">
+        <img src="/assets/fig-swarm-spoofing-classes.png" alt="Three ways to spoof a whole swarm: (a) a single transmitter collapses the formation; (b) GNSS-WASP uses one transmitter per satellite and moves the formation from R to L; (c) a ground antenna array moves the formation from R to L">
+        <figcaption>Three ways to move a whole swarm from R to L. Besides GNSS-WASP (b), the same test
+        catches a single transmitter (a) in every window, and a ground array (c) once the drones' heights
+        differ by about &plusmn;1 m.</figcaption>
+      </figure>
+      <p>The attacker's remaining escape is distance, and the distance it needs grows with the square of
+      the swarm's width. The two pieces of work fit together: parallax tells the swarm that a source is
+      near, using only the receivers and inter-drone ranging it already has; anchors are what recover the
+      true position, and what handle an exact shift. This part is also simulation only. The next step is
+      cabled validation, with no over-the-air transmission.</p>
+    </section>
+
+    <section class="detail-section">
       <h2>Related</h2>
       <div class="detail-links">
+        <a href="/publications/swarm-parallax.html">Publication: Detecting Formation-Preserving GNSS Spoofing of UAV Swarms</a>
         <a href="/publications/rigidshift.html">Publication: Rigid-Covert GNSS Spoofing of UAV Swarms</a>
         <a href="/research/swarm-robustness.html">Research: Swarm Robustness</a>
       </div>
